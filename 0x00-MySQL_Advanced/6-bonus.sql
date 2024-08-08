@@ -9,7 +9,7 @@ BEGIN
     DECLARE project_id INT;
 
     -- Check if the project exists
-    SELECT id INTO project_ID
+    SELECT id INTO project_id
     FROM projects
     WHERE name = project_name;
 
