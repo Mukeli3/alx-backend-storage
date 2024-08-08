@@ -20,6 +20,6 @@ BEGIN
     END IF;
 
     -- Add student correction
-    INSERT INTO correct (user_id, project_id, score) VALUES (use_id, project_id, score);
+    INSERT INTO correct (user_id, project_id, score) VALUES (user_id, project_id, score);
 END $$
 DELIMITER ;
