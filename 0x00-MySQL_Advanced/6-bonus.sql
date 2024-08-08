@@ -7,14 +7,19 @@ CREATE PROCEDURE AdBonus(
 )
 BEGIN
     DECLARE project_id INT;
+
+    -- Check if the project exists
     SELECT id INTO project_ID
     FROM projects
     WHERE name = project_name;
-    IF project_id IS NOT NULL THEN
+
+    -- create if non-existant
+    IF project_id IS NULL THEN
 	INSERT INTO projects (name) VALUES (project_name);
 	SET project_id = LAST_ID();
     END IF;
-    INSERT INTO correct (user_id, project_id, score)
-    VALUES (use_id, project_id, score);
+
+    -- Add student correction
+    INSERT INTO correct (user_id, project_id, score) VALUES (use_id, project_id, score);
 END $$
 DELIMITER ;
