@@ -1,9 +1,11 @@
 -- SQL script that creates a stored procedure
 DELIMITER $$
+
+DROP PROCEDURE IF EXISTS AdBonus;
 CREATE PROCEDURE AdBonus(
     IN user_id INT,
     IN project_name VARCHAR(255),
-    IN score DECIMAL(10,2)
+    IN score FLOAT
 )
 BEGIN
     DECLARE project_id INT;
@@ -16,10 +18,10 @@ BEGIN
     -- create if non-existant
     IF project_id IS NULL THEN
 	INSERT INTO projects (name) VALUES (project_name);
-	SET project_id = LAST_ID();
+	SET project_id = LAST_INSERT_ID();
     END IF;
 
     -- Add student correction
-    INSERT INTO correct (user_id, project_id, score) VALUES (user_id, project_id, score);
+    INSERT INTO corrections (user_id, project_id, score) VALUES (user_id, project_id, score);
 END $$
 DELIMITER ;
