@@ -3,7 +3,7 @@ DELIMITER $$
 CREATE PROCEDURE AdBonus(
     IN user_id INT,
     IN project_name VARCHAR(255),
-    IN score INT
+    IN score DECIMAL(10,2)
 )
 BEGIN
     DECLARE project_id INT;
