@@ -29,16 +29,17 @@ def stats():
     collection = db.nginx # nginx collection
     total = collection.count_documents({}) # total logs number
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    m_count = {method: collection.count_documents({"method": method}) for
-            method in methods}
+    for method in methods:
+        m_count[method] = collection.count_documents(
+                {"method": method})
 
     s_checks = collection.count_documents({"method": "GET", "path": "/status"})
 
     # Display results
     print(f"{total} logs")
     print("Methods:")
-    for method in methods:
-        print(f"\tmethod {method}: {m_count[method]}")
+    for method, count in m_count.items():
+        print("\tmethod {}: {}".format(method, count))
     print(f"{s_checks} status checks")
 
 if __name__ == "__main__":
