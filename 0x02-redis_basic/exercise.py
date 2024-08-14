@@ -49,7 +49,7 @@ def replay(fn: Callable):
     """
     r = redis.Redis()
     fname = fn.__qualname__
-    call_count = r.get(func_name)
+    call_count = r.get(fname)
     try:
         call_count = int(call_count.decode("utf-8"))
     except (AttributeError, ValueError):
