@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """
+This module defines a counter decorator and a get_page method
+The core of the function is very simple. It uses the requests module to
+obtain the HTML content of a particular URL and returns it.
 """
 import requests
 import redis
@@ -11,6 +14,8 @@ r = redis.Redis()
 
 def counter(method):
     """
+    A decorator, adds counting and cachig functionality to the decorated
+    function
     """
     @wraps(method)
     def wrapper(url):
@@ -32,5 +37,6 @@ def counter(method):
 @counter
 def get_page(url: str) -> str:
     """
+    Fetches URL content using requests and returns it as a string
     """
     return requests.get(url).text
