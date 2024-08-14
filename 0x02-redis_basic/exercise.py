@@ -26,8 +26,8 @@ class Cache:
         self._redis.set(key, data)  # store data in Redis
         return key  # return key
 
-    def get(self, key: str, fn: Optional[Callable] = None)
-    -> Union[str, bytes, int, None]:
+    def get(self, key: str, fn: Optional[Callable] = None
+            ) -> Union[str, bytes, int, None]:
         """
         method takes a key str arg and an optional Callable arg used o convert
         the data back to the desired format
@@ -41,6 +41,6 @@ class Cache:
         """ get a str value from Redis by key """
         return self.get(key, lambda d: d.decode('utf-8'))
 
-    def get_int(self, key:str) -> Optional[int]:
+    def get_int(self, key: str) -> Optional[int]:
         """ get an int value from Redis by key """
         return self.get(key, lambda x: int(x))
