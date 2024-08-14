@@ -43,6 +43,27 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(fn: Callable):
+    """
+    """
+    r = redis.Redis()
+    fname = fn.__qualname__
+    call_count = r.get(func_name)
+    try:
+        call_count = int(call_count.decode("utf-8"))
+    except (AttributeError, ValueError):
+        call_count = 0
+
+    print(f"{fname} was called {call_count} times:")
+    inputs = r.lrange(f"{fname}:inputs", 0, -1)
+    outputs = r.lrange(f"{fname}:outputs", 0, -1)
+
+    for i, o in zip(inputs, outputs):
+        i_str = i.decode("utf-8") if isinstance(i, bytes) else ""
+        o_str = o.decode("utf-8") if isinstance(o, bytes) else ""
+        print(f"{fname}(*{i_str}) -> {o_str}")
+
+
 class Cache:
     """
     Cache class
