@@ -21,8 +21,8 @@ def top_students(mongo_collection):
     pipel = [
             {
                 "$project": {
-                    "name": 1,  # Include the name field
-                    "averageScore": { "$avg": "$scores" }
+                    "name": "$name",  # Include the name field
+                    "averageScore": { "$avg": "$topics.score" }
                     }
                 },
             {
