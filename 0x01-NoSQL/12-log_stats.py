@@ -20,28 +20,23 @@ for monitoring, debugging, or analyzing server traffic patterns.
 from pymongo import MongoClient
 
 
-def stats():
-    """
-    function provides Nginx logs stored in MongoDB statistics
-    """
-    client = MongoClient('mongodb://localhost:27017/')  # connect to Mongodb
-    db = client.logs  # database logs
-    collection = db.nginx  # nginx collection
-    total = collection.count_documents({})  # total logs number
+if __name__ == "__main__":
+    client = MongoClient('mongodb://127.0.0.1:27017')
+    collection = client.logs.nginx
+
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    m_count = {}
+
     for method in methods:
         m_count[method] = collection.count_documents(
-                {"method": method})
+            {"method": method})
 
-    s_checks = collection.count_documents({"method": "GET", "path": "/status"})
+    query = {"path": "/status", "method": "GET"}
+    status_docs = collection.count_documents(query)
+    total = collection.count_documents({})
 
-    # Display results
-    print(f"{total} logs")
+    print("{} logs".format(total))
     print("Methods:")
-    for method, count in m_count.items():
+    for method, count in m_counts.items():
         print("\tmethod {}: {}".format(method, count))
-    print(f"{s_checks} status checks")
-
-
-if __name__ == "__main__":
-    stats()
+    print("{} status check".format(status_docs))
