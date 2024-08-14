@@ -16,9 +16,9 @@ if __name__ == "__main__":
 
     for method in methods:
         m_count[method] = collection.count_documents(
-            {"method": method})
+                {"method": method})
 
-    query = {"path": "/status", "method": "GET"}
+        query = {"path": "/status", "method": "GET"}
     status_docs = collection.count_documents(query)
     total = collection.count_documents({})
 
@@ -28,11 +28,11 @@ if __name__ == "__main__":
         print("\tmethod {}: {}".format(method, count))
     print("{} status check".format(status_docs))
 
-     top_ips = collection.aggregate([
+    top_ips = collection.aggregate([
         {"$group": {"_id": "$ip", "count": {"$sum": 1}}},
         {"$sort": {"count": -1}},
         {"$limit": 10}
-    ])
+        ])
 
     print("IPs:")
     for ip in top_ips:
